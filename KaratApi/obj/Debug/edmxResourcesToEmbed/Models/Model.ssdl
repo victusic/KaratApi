@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище KaratDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Advertisement">
+    <Key>
+      <PropertyRef Name="AdverId" />
+    </Key>
+    <Property Name="AdverId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Photo" Type="varbinary(max)" />
+    <Property Name="Type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Popular">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Photo" Type="varbinary(max)" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TypesAdvertisiments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Advertisement_TypesAdvertisiments">
+    <End Role="TypesAdvertisiments" Type="Self.TypesAdvertisiments" Multiplicity="1" />
+    <End Role="Advertisement" Type="Self.Advertisement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypesAdvertisiments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Advertisement">
+        <PropertyRef Name="Type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище KaratDbModelContainer">
+    <EntitySet Name="Advertisement" EntityType="Self.Advertisement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Popular" EntityType="Self.Popular" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypesAdvertisiments" EntityType="Self.TypesAdvertisiments" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Advertisement_TypesAdvertisiments" Association="Self.FK_Advertisement_TypesAdvertisiments">
+      <End Role="TypesAdvertisiments" EntitySet="TypesAdvertisiments" />
+      <End Role="Advertisement" EntitySet="Advertisement" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

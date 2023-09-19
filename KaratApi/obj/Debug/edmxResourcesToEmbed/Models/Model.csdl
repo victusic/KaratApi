@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KaratDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Advertisement">
+    <Key>
+      <PropertyRef Name="AdverId" />
+    </Key>
+    <Property Name="AdverId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Type" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TypesAdvertisiment" Relationship="Self.FK_Advertisement_TypesAdvertisiments" FromRole="Advertisement" ToRole="TypesAdvertisiments" />
+  </EntityType>
+  <EntityType Name="Popular">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TypesAdvertisiment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Advertisements" Relationship="Self.FK_Advertisement_TypesAdvertisiments" FromRole="TypesAdvertisiments" ToRole="Advertisement" />
+  </EntityType>
+  <Association Name="FK_Advertisement_TypesAdvertisiments">
+    <End Role="TypesAdvertisiments" Type="Self.TypesAdvertisiment" Multiplicity="1" />
+    <End Role="Advertisement" Type="Self.Advertisement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypesAdvertisiments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Advertisement">
+        <PropertyRef Name="Type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="KaratDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Advertisements" EntityType="Self.Advertisement" />
+    <EntitySet Name="Populars" EntityType="Self.Popular" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="TypesAdvertisiments" EntityType="Self.TypesAdvertisiment" />
+    <AssociationSet Name="FK_Advertisement_TypesAdvertisiments" Association="Self.FK_Advertisement_TypesAdvertisiments">
+      <End Role="TypesAdvertisiments" EntitySet="TypesAdvertisiments" />
+      <End Role="Advertisement" EntitySet="Advertisements" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
